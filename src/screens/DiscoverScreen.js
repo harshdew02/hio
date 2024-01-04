@@ -3,12 +3,17 @@ import React from 'react'
 import TopBar from '../components/TopBar'
 
 export default function DiscoverScreen() {
-  return (
+    return (
 
-      <SafeAreaView>
-        <TopBar/>
+        <SafeAreaView>
+            <TopBar />
 
-      </SafeAreaView>
 
-  )
+            <Text className="mt-[150px]">
+                Discover
+            </Text>
+
+        </SafeAreaView>
+
+    )
 }

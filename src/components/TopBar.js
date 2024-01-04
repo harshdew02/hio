@@ -1,9 +1,12 @@
-import { View, Text, Image, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, Image, StyleSheet, StatusBar, Touchable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function TopBar() {
+
+  const navigation = useNavigation();
+  
   return (
     <View className="bg-white p-3" style={[styles.card, styles.elevation]}>
         <StatusBar
@@ -11,8 +14,10 @@ export default function TopBar() {
           barStyle={"dark-content"}
           hidden={false}
         />
-
-      <Image className="ml-4" source={require('../../assets/logo.png')} style={{ width: wp(25), height: hp(8) }} />
+<TouchableOpacity onPress={() => navigation.openDrawer()}>
+<Image className="ml-4" source={require('../../assets/logo.png')} style={{ width: wp(25), height: hp(8) }} />
+</TouchableOpacity>
+      
     </View>
   )
 }

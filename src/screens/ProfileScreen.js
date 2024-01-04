@@ -7,6 +7,11 @@ export default function ProfileScreen() {
     <SafeAreaView>
     <TopBar/>
 
+
+    <Text className ="mt-[150px]">
+        Profile
+    </Text>
+
   </SafeAreaView>
   )
 }

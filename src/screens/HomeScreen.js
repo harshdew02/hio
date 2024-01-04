@@ -7,6 +7,10 @@ export default function HomeScreen() {
     <SafeAreaView>
     <TopBar/>
 
+    <Text className ="mt-[150px]">
+        Home LoginPage
+    </Text>
+
   </SafeAreaView>
   )
 }

@@ -18,11 +18,11 @@ import {
     UserIcon,
 } from "react-native-heroicons/outline";
 
-
+const Drawer = createDrawerNavigator();
 
 export default function RightDrawer() {
 
-    const Drawer = createDrawerNavigator();
+    
 
     const DrawerHeaderContent = (props) => {
         return (
@@ -46,11 +46,14 @@ export default function RightDrawer() {
     return (
         <>
             <Drawer.Navigator
+
+            initialRouteName="BottomBar"
                 screenOptions={{
                     headerShown: false,
                     drawerStyle: {
                         backgroundColor: "#fff",
                     },
+                    drawerPosition: 'right'
                 }}
                 drawerContent={DrawerHeaderContent}
             >
