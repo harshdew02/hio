@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native/metro-config": "^0.73.2",
+    "@react-navigation/native": "^6.1.9",
     "axios": "^1.6.2",
     "expo": "~49.0.15",
     "expo-splash-screen": "~0.20.5",
