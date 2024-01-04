@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Type
 import RightDrawer from "./RightDrawer";
 import BottomTabs from "./BottomTabs";
+import Verify from "../screens/Verify";
 
 
 export default function AppNavigation() {
@@ -19,9 +20,10 @@ export default function AppNavigation() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName="main"
+                initialRouteName="LoginPage"
                 screenOptions={{ headerShown: false }}
             >
+                <Stack.Screen name="verifyPage" component={Verify} />
                 <Stack.Screen name="main" component={RightDrawer} />
                 <Stack.Screen name="LoginPage" component={Login} />
             </Stack.Navigator>

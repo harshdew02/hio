@@ -1,10 +1,14 @@
-import { View, Text } from 'react-native'
+import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
+import TopBar from '../components/TopBar'
 
 export default function DiscoverScreen() {
   return (
-    <View>
-      <Text>DiscoverScreen</Text>
-    </View>
+
+      <SafeAreaView>
+        <TopBar/>
+
+      </SafeAreaView>
+
   )
 }

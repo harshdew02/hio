@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
+import { View, Text , SafeAreaView} from 'react-native'
 import React from 'react'
+import TopBar from '../components/TopBar'
 
 export default function ProfileScreen() {
   return (
-    <View>
-      <Text>ProfileScreen</Text>
-    </View>
+    <SafeAreaView>
+    <TopBar/>
+
+  </SafeAreaView>
   )
 }

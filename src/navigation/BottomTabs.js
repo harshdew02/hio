@@ -47,7 +47,7 @@ export default function BottomTabs() {
             width,
             height,
         }}>
-            <Tab.Navigator initialRouteName='Announcement' screenOptions={screenOptions}>
+            <Tab.Navigator initialRouteName='Home' screenOptions={screenOptions}>
                 <Tab.Screen
                     name="Home"
                     component={HomeScreen}
@@ -64,7 +64,7 @@ export default function BottomTabs() {
                 />
 
                 <Tab.Screen
-                    name="Announcement"
+                    name="Discover"
                     component={DiscoverScreen}
                     options={{
                         tabBarIcon: ({ focused }) => {
@@ -74,7 +74,7 @@ export default function BottomTabs() {
                                     {/* <Entypo name="wallet" size={24} color={focused ? "#16247d": "#9e9d9d"} /> */}
                                     {/* <MaterialIcons name="campaign" size={30} color={focused ? "#16247d" : "#9e9d9d"} /> */}
                                     <MegaphoneIcon size={wp(5)} color={focused ? "#16247d" : "#9e9d9d"} />
-                                    <Text style={{ fontSize: 8 }} color={focused ? "#16247d" : "#9e9d9d"}>ANNOUNCEMENT</Text>
+                                    <Text style={{ fontSize: 8 }} color={focused ? "#16247d" : "#9e9d9d"}>DISCOVER</Text>
                                 </View>
                                 //  </TouchableOpacity>
                             )
@@ -82,7 +82,7 @@ export default function BottomTabs() {
                     }}
                 />
                 <Tab.Screen
-                    name="ChatBot"
+                    name="Profile"
                     component={ProfileScreen}
                     options={{
                         tabBarIcon: ({ focused }) => {
@@ -91,7 +91,7 @@ export default function BottomTabs() {
                                 <View style={{ alignItems: "center", justifyContent: "center" }}>
                                     {/* <MaterialCommunityIcons name="robot" size={30} color={focused ? "#16247d" : "#9e9d9d"} /> */}
                                     <ChatBubbleBottomCenterIcon size={wp(5)} color={focused ? "#16247d" : "#9e9d9d"} />
-                                    <Text style={{ fontSize: 8 }} color={focused ? "#16247d" : "#9e9d9d"}>CHAT BOT</Text>
+                                    <Text style={{ fontSize: 8 }} color={focused ? "#16247d" : "#9e9d9d"}>PROFILE</Text>
                                 </View>
                                 //  </TouchableOpacity>
                             )

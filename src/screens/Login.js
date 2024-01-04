@@ -19,6 +19,10 @@ import { Dropdown } from "react-native-element-dropdown";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import axios from "axios";
 
+
+import { useNavigation } from '@react-navigation/native';
+
+
 const data = [
   {
   name: "Afghanistan",
@@ -1492,6 +1496,8 @@ const requestOTP = async (code, number) => {
 const Login = () => {
   const [value, setValue] = useState('91');
 
+  const navigation = useNavigation();
+
   const [number, onChangeNumber] = React.useState("");
   return (
     <SafeAreaView>
@@ -1572,11 +1578,12 @@ const Login = () => {
           <TouchableOpacity
             className="bg-[#32959D] rounded-full py-3 mt-8 items-center"
             style={{ height: hp(7), width: wp(80) }}
-            onPress={async () => {
-              await requestOTP(value,number);
-            }}
+            // onPress={async () => {
+            //   await requestOTP(value,number);
+            // }}
+            onPress={()=>{navigation.navigate('verifyPage')} }
           >
-            <Text className="text-[22.48px] text-white">Verify OTP</Text>
+            <Text className="text-[22.48px] text-white">Get OTP</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
