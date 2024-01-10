@@ -1501,7 +1501,7 @@ const requestOTP = async (code, number, navigation) => {
 import Logo from '../../assets/images/Frame37589.svg';
 import Logo2 from '../../assets/images/frame1.svg';
 import Logo3 from '../../assets/images/Group163007.svg';
-import Logo4 from '../../assets/images/Group163009.svg';
+import Logo4 from '../../assets/images/myvec.svg';
 
 const Login = () => {
   const [value, setValue] = useState("91");
@@ -1532,35 +1532,31 @@ const Login = () => {
           hidden={false}
         />
 
-        <View style={styles.box}>
-          <View className="bg-[#EAF7FC]" style={styles.vect}>
-          </View>
+        {/* <View style={styles.box}> */}
+        {/* <View className="bg-[#EAF7FC]" style={styles.vect}>
+          </View> */}
 
-
-
-          <Logo4 width={wp(50)} height={hp(25)} style={{marginTop: hp(18)}} />
-          {/* <View style={{ height: hp(10) }}></View> */}
-        </View>
+        <Logo4 width={wp(100)} height={wp(85)} style={styles.box} />
+        {/* <View style={{ height: hp(10) }}></View> */}
+        {/* </View> */}
 
         <View
           className="flex-col items-center mt-12 justify-between"
           style={{ height: hp(40) }}
         >
-          <Text className="text-[#01818C] text-2xl font-bold">
+
+          <Text style={styles.well}>
             Your Wellbeing Comes First!
           </Text>
-          <View className="flex-col items-center">
-            <Text className="text-base">
-              Get instant one-click appointments
-            </Text>
-            <Text className="text-base">
-              track your wellbeing journey, access
-            </Text>
-            <Text className="text-base">session notes, and more.</Text>
-            <Text className="text-base font-bold">All in one place!</Text>
-          </View>
 
-          <Text className="text-[22px] font-[700]">
+          <Text style={styles.getinstant}>
+            Get instant one-click appointments, track your wellbeing journey, access session notes, and more.
+          </Text>
+          <Text style={styles.allinone}>
+            All in one place!
+          </Text>
+
+          <Text style={styles.enterphone}>
             Enter your Phone Number
           </Text>
 
@@ -1614,6 +1610,44 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
+
+  well: {
+    // Your Wellbeing Comes First!
+    color: '#01818C',
+    fontSize: wp(6),
+    fontFamily: 'Roboto',
+    fontWeight: '700',
+  },
+
+  getinstant: {
+    color: '#455A64',
+    fontSize: wp(4.2),
+    fontFamily: 'Roboto',
+    fontWeight: '400',
+    lineHeight: wp(6),
+    width: wp(75),
+    textAlign: 'center',
+    marginTop: wp(0.5)
+  },
+  allinone: {
+    color: '#455A64',
+    fontSize: wp(4),
+    fontFamily: 'Roboto',
+    fontWeight: '700',
+    width: wp(75),
+    textAlign: 'center',
+  },
+
+  enterphone: {
+    // Enter your Phone Number
+    color: '#043953',
+    fontSize: wp(5),
+    fontFamily: 'Roboto',
+    fontWeight: '700',
+    marginTop: hp(2)
+  },
+
+
   vect: {
     width: wp(140),
     height: hp(38),
