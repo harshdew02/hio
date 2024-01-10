@@ -11,10 +11,10 @@ export default function LoaderEffect() {
 
             <TopBar />
 
-            <Image className="mr-8" source={require('../../assets/images/loader.gif')} style={{ height: hp(28), width: wp(100), marginTop: hp(25) }} />
+            <Image className="mr-8" source={require('../../assets/images/loader.gif')} style={{ height: hp(28), width: wp(100), marginTop: hp(24) }} />
 
             <View className="flex-row justify-around">
-                <Text style={styles.text}>
+                <Text style={styles.text1}>
                     Relax while we setup your Personalised Wellbeing Dashboard
                 </Text>
             </View>
@@ -24,16 +24,16 @@ export default function LoaderEffect() {
 
 const styles = StyleSheet.create({
 
-    text: {
+    text1: {
         color: '#043953',
-        fontSize: 16,
+        fontSize: hp(2),
         textAlign: 'center',
         fontFamily: 'Roboto',
         fontWeight: '700',
-        lineHeight: 24,
-        wordWrap: 'break-word',
+        lineHeight: hp(3),
         width: wp(80),
-        marginTop: 8
+        paddingVertical: hp(2),
+        marginTop: hp(2)
     }
 
 })

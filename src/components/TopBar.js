@@ -6,18 +6,18 @@ import { useNavigation } from '@react-navigation/native';
 export default function TopBar() {
 
   const navigation = useNavigation();
-  
+
   return (
     <View className="bg-white p-3" style={[styles.card, styles.elevation]}>
-        <StatusBar
-          backgroundColor={"#fff"}
-          barStyle={"dark-content"}
-          hidden={false}
-        />
-<TouchableOpacity onPress={() => navigation.openDrawer()}>
-<Image className="ml-4" source={require('../../assets/logo.png')} style={{ width: wp(25), height: hp(8) }} />
-</TouchableOpacity>
-      
+      <StatusBar
+        backgroundColor={"#fff"}
+        barStyle={"dark-content"}
+        hidden={false}
+      />
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
+        <Image source={require('../../assets/logo.png')} style={{ width: wp(25), height: hp(8) , marginLeft: wp(4) , marginBottom: hp(1) }} />
+      </TouchableOpacity>
+
     </View>
   )
 }
@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '100%'
+    width: '100%',
+    height: hp(10)
   },
   elevation: {
     elevation: 10,

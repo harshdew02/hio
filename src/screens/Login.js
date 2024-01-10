@@ -1489,13 +1489,19 @@ const requestOTP = async (code, number, navigation) => {
       if (res.data.Status == "Success")
         navigation.navigate("verifyPage", res.data);
       else console.log("Error:" + res.data.Status);
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err);
     });
   } catch (error) {
     console.error("Error requesting OTP:", error.message);
   }
 };
+
+
+import Logo from '../../assets/images/Frame37589.svg';
+import Logo2 from '../../assets/images/frame1.svg';
+import Logo3 from '../../assets/images/Group163007.svg';
+import Logo4 from '../../assets/images/Group163009.svg';
 
 const Login = () => {
   const [value, setValue] = useState("91");
@@ -1517,7 +1523,7 @@ const Login = () => {
 
   const [number, onChangeNumber] = React.useState("");
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-white">
       <TopBar />
       <ScrollView>
         <StatusBar
@@ -1527,15 +1533,13 @@ const Login = () => {
         />
 
         <View style={styles.box}>
-          <View className="bg-[#EAF7FC]" style={styles.vect}></View>
-          <View className="flex-col justify-end" style={{ height: hp(45) }}>
-            <Image
-              className="mt-8"
-              style={styles.display}
-              source={require("../../assets/images/display.png")}
-            />
+          <View className="bg-[#EAF7FC]" style={styles.vect}>
           </View>
-          <View style={{ height: hp(10) }}></View>
+
+
+
+          <Logo4 width={wp(50)} height={hp(25)} style={{marginTop: hp(18)}} />
+          {/* <View style={{ height: hp(10) }}></View> */}
         </View>
 
         <View
@@ -1611,11 +1615,11 @@ export default Login;
 
 const styles = StyleSheet.create({
   vect: {
-    width: "150%",
-    height: "95%",
+    width: wp(140),
+    height: hp(38),
     background: "#EAF7FC",
-    borderBottomRightRadius: 350,
-    borderBottomLeftRadius: 350,
+    borderBottomRightRadius: wp(100),
+    borderBottomLeftRadius: wp(100),
     position: "absolute",
   },
   box: {

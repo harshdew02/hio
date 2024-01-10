@@ -38,7 +38,7 @@ export default function AppNavigation() {
         <NavigationContainer>
             <Stack.Navigator
                 // initialRouteName={`${front}`}
-                initialRouteName="loader"
+                initialRouteName="LoginPage"
                 screenOptions={{ headerShown: false }}
             >
                 <Stack.Screen name="loader" component={LoaderEffect}/>
