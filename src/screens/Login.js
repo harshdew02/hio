@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
   ScrollView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -1477,7 +1478,7 @@ const data = [
   },
 ];
 
-const requestOTP = async (code, number, navigation) => {
+const requestOTP = async (code, number, navigation, [otp,setOtp]) => {
   const apiUrl = "https://heartitout.in/welcome/wp-json/otp_signup_process/v2";
 
   try {
@@ -1485,15 +1486,20 @@ const requestOTP = async (code, number, navigation) => {
       ch: "send_otp",
       mob: code + number,
     };
+    // console.log("Info: "+code+number)
+    if((code+number).length < 10)
+      throw new Error('Number is undefined')
     axios.post(apiUrl, requestData).then((res) => {
       if (res.data.Status == "Success")
         navigation.navigate("verifyPage", res.data);
       else console.log("Error:" + res.data.Status);
     }).catch((err) => {
+      setOtp(false)
       console.log(err);
     });
   } catch (error) {
-    console.error("Error requesting OTP:", error.message);
+    setOtp(false)
+    console.log("Error requesting OTP:", error.message);
   }
 };
 
@@ -1522,6 +1528,13 @@ const Login = () => {
   // }, [])
 
   const [number, onChangeNumber] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [otp,setOtp] = React.useState(false);
+  navigation.addListener('focus',(ref)=>{
+    setLoading(false);
+    setOtp(false);
+  })
+
   return (
     <SafeAreaView className="bg-white">
       <TopBar />
@@ -1535,9 +1548,6 @@ const Login = () => {
         <View style={styles.box}>
           <View className="bg-[#EAF7FC]" style={styles.vect}>
           </View>
-
-
-
           <Logo4 width={wp(50)} height={hp(25)} style={{marginTop: hp(18)}} />
           {/* <View style={{ height: hp(10) }}></View> */}
         </View>
@@ -1597,14 +1607,19 @@ const Login = () => {
           </View>
 
           <TouchableOpacity
+            disabled={otp}
             className="bg-[#32959D] rounded-full py-3 mt-8 items-center"
             style={{ height: hp(7), width: wp(80) }}
             onPress={() => {
-              requestOTP(value, number, navigation);
+              setLoading(true)
+              setOtp(false);
+              requestOTP(value, number, navigation, [loading,setLoading]);
             }}
           >
             <Text className="text-[22.48px] text-white">Get OTP</Text>
           </TouchableOpacity>
+          { loading ? <ActivityIndicator size="small"/> : <View></View>}
+          
         </View>
       </ScrollView>
     </SafeAreaView>
