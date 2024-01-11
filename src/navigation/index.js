@@ -13,6 +13,7 @@ import BottomTabs from "./BottomTabs";
 import Verify from "../screens/Verify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoaderEffect from "../components/LoaderEffect";
+import Register from "../screens/Register";
 
 
 export default function AppNavigation() {
@@ -38,7 +39,7 @@ export default function AppNavigation() {
         <NavigationContainer>
             <Stack.Navigator
                 // initialRouteName={`${front}`}
-                initialRouteName="LoginPage"
+                initialRouteName="registerPage"
                 screenOptions={{ headerShown: false,
                 contentStyle:{
                     backgroundColor:'#FFFFFF'
@@ -49,6 +50,7 @@ export default function AppNavigation() {
                 <Stack.Screen name="verifyPage" component={Verify} />
                 <Stack.Screen name="main" component={RightDrawer} />
                 <Stack.Screen name="LoginPage" component={Login} />
+                <Stack.Screen name="registerPage" component={Register} />
             </Stack.Navigator>
         </NavigationContainer>
     );
