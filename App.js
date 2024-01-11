@@ -5,15 +5,10 @@ import AppNavigation from './src/navigation';
 
 export default function App() {
   return (
-    <>
-      {/* <Login /> */}
-      {/* <StatusBar
-          backgroundColor={"#fff"}
-          barStyle={"dark-content"}
-          hidden={false}
-        /> */}
-      <AppNavigation/>
-    </>
+  
+      <>
+        <AppNavigation />
+      </>
   );
 }
 

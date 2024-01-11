@@ -39,7 +39,11 @@ export default function AppNavigation() {
             <Stack.Navigator
                 // initialRouteName={`${front}`}
                 initialRouteName="LoginPage"
-                screenOptions={{ headerShown: false }}
+                screenOptions={{ headerShown: false,
+                contentStyle:{
+                    backgroundColor:'#FFFFFF'
+                }
+                }}
             >
                 <Stack.Screen name="loader" component={LoaderEffect}/>
                 <Stack.Screen name="verifyPage" component={Verify} />
