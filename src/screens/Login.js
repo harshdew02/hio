@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
   ScrollView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -1477,7 +1478,7 @@ const data = [
   },
 ];
 
-const requestOTP = async (code, number, navigation) => {
+const requestOTP = async (code, number, navigation, [loading, setLoading]) => {
   const apiUrl = "https://heartitout.in/welcome/wp-json/otp_signup_process/v2";
 
   try {
@@ -1485,47 +1486,44 @@ const requestOTP = async (code, number, navigation) => {
       ch: "send_otp",
       mob: code + number,
     };
-    axios.post(apiUrl, requestData).then((res) => {
-      if (res.data.Status == "Success")
-        navigation.navigate("verifyPage", res.data);
-      else console.log("Error:" + res.data.Status);
-    }).catch((err) => {
-      console.log(err);
-    });
+    if((code+number).length < 10)
+      throw new Error('Mobile number is too short')
+
+    axios
+      .post(apiUrl, requestData)
+      .then((res) => {
+        if (res.data.Status == "Success")
+          navigation.navigate("verifyPage", res.data);
+        else console.log("Error:" + res.data.Status);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false)
+      });
   } catch (error) {
-    console.error("Error requesting OTP:", error.message);
+    console.log("Error requesting OTP:", error.message);
+    setLoading(false)
   }
 };
 
-
-import Logo from '../../assets/images/Frame37589.svg';
-import Logo2 from '../../assets/images/frame1.svg';
-import Logo3 from '../../assets/images/Group163007.svg';
-import Logo4 from '../../assets/images/myvec.svg';
+import Logo from "../../assets/images/Frame37589.svg";
+import Logo2 from "../../assets/images/frame1.svg";
+import Logo3 from "../../assets/images/Group163007.svg";
+import Logo4 from "../../assets/images/myvec.svg";
 
 const Login = () => {
   const [value, setValue] = useState("91");
-
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
-  //   React.useEffect(() => {
-  //     const byPass = async () => {
-  //         let token = await AsyncStorage.getItem("token", (data) => {
-  //             console.log("error from async: "+data);
-  //           });
-  //           if (token == null || token == undefined) {
-  //             // setFront('main')
-  //           } else navigation.navigate('main')
-  //     }
-  //     byPass();
-  //     // console.log(token)
-  // }, [])
-
   const [number, onChangeNumber] = React.useState("");
+  navigation.addListener("focus", (ref) => {
+    setLoading(false);
+  });
+
   return (
     <SafeAreaView>
       <TopBar />
-      <ScrollView >
+      <ScrollView>
         <StatusBar
           backgroundColor={"#fff"}
           barStyle={"dark-content"}
@@ -1540,25 +1538,16 @@ const Login = () => {
         {/* <View style={{ height: hp(10) }}></View> */}
         {/* </View> */}
 
-        <View
-          className="flex-col items-center"
-          style={{ marginTop: hp(2.5) }}
-        >
-
-          <Text style={styles.well}>
-            Your Wellbeing Comes First!
-          </Text>
+        <View className="flex-col items-center" style={{ marginTop: hp(2.5) }}>
+          <Text style={styles.well}>Your Wellbeing Comes First!</Text>
 
           <Text style={styles.getinstant}>
-            Get instant one-click appointments, track your wellbeing journey, access session notes, and more.
+            Get instant one-click appointments, track your wellbeing journey,
+            access session notes, and more.
           </Text>
-          <Text style={styles.allinone}>
-            All in one place!
-          </Text>
+          <Text style={styles.allinone}>All in one place!</Text>
 
-          <Text style={styles.enterphone}>
-            Enter your Phone Number
-          </Text>
+          <Text style={styles.enterphone}>Enter your Phone Number</Text>
 
           <View
             className="flex-row items-center"
@@ -1595,12 +1584,13 @@ const Login = () => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              requestOTP(value, number, navigation);
+              setLoading(true);
+              requestOTP(value, number, navigation, [loading, setLoading]);
             }}
           >
             <Text style={styles.textStyle}>Get OTP</Text>
           </TouchableOpacity>
-          <ActivityIndicator animating={loading} size="small"/>
+          <ActivityIndicator animating={loading} size="small" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -1610,43 +1600,41 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
-
   well: {
     // Your Wellbeing Comes First!
-    color: '#01818C',
+    color: "#01818C",
     fontSize: wp(6),
-    fontFamily: 'Roboto',
-    fontWeight: '700',
+    fontFamily: "Roboto",
+    fontWeight: "700",
   },
 
   getinstant: {
-    color: '#455A64',
+    color: "#455A64",
     fontSize: wp(4.2),
-    fontFamily: 'Roboto',
-    fontWeight: '400',
+    fontFamily: "Roboto",
+    fontWeight: "400",
     lineHeight: wp(6),
     width: wp(75),
-    textAlign: 'center',
-    marginTop: wp(0.5)
+    textAlign: "center",
+    marginTop: wp(0.5),
   },
   allinone: {
-    color: '#455A64',
+    color: "#455A64",
     fontSize: wp(4),
-    fontFamily: 'Roboto',
-    fontWeight: '700',
+    fontFamily: "Roboto",
+    fontWeight: "700",
     width: wp(75),
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   enterphone: {
     // Enter your Phone Number
-    color: '#043953',
+    color: "#043953",
     fontSize: wp(5),
-    fontFamily: 'Roboto',
-    fontWeight: '700',
-    marginTop: hp(2)
+    fontFamily: "Roboto",
+    fontWeight: "700",
+    marginTop: hp(2),
   },
-
 
   vect: {
     width: wp(140),
@@ -1670,13 +1658,13 @@ const styles = StyleSheet.create({
   input: {
     height: hp(7),
     width: wp(83),
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: wp(3),
     borderWidth: wp(0.4),
-    borderColor: 'rgba(69, 90, 100, 0.30)',
-    borderStyle: 'solid',
-    color: '#455A64',
-    fontWeight: '600',
+    borderColor: "rgba(69, 90, 100, 0.30)",
+    borderStyle: "solid",
+    color: "#455A64",
+    fontWeight: "600",
     paddingLeft: wp(21),
     fontSize: wp(4),
   },
@@ -1684,10 +1672,10 @@ const styles = StyleSheet.create({
     // marginTop: 7,
     height: hp(7),
     width: wp(20),
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: wp(3),
     borderWidth: wp(0.4),
-    borderColor: 'rgba(69, 90, 100, 0.30)',
+    borderColor: "rgba(69, 90, 100, 0.30)",
     left: 0,
     zIndex: 1,
     paddingLeft: wp(1),
@@ -1701,16 +1689,16 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     height: wp(6),
     fontSize: wp(4),
-    color: '#455A64',
-    position: 'absolute',
+    color: "#455A64",
+    position: "absolute",
     zIndex: 1,
-    fontFamily: 'Roboto',
-    fontWeight: '600',
-    right: 0
+    fontFamily: "Roboto",
+    fontWeight: "600",
+    right: 0,
   },
   iconStyle: {
     width: wp(7),
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     height: wp(7),
   },
@@ -1737,20 +1725,19 @@ const styles = StyleSheet.create({
     height: hp(7.3),
     width: wp(82),
     marginTop: hp(4),
-    backgroundColor: '#32959D',
+    backgroundColor: "#32959D",
     borderRadius: wp(10),
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginBottom: hp(10)
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: hp(10),
   },
 
   textStyle: {
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
     fontSize: wp(5.5),
-    fontFamily: 'Roboto',
-    fontWeight: '500',
+    fontFamily: "Roboto",
+    fontWeight: "500",
   },
-
 });
