@@ -6,6 +6,7 @@ import {
   StatusBar,
   StyleSheet,
   TextInput,
+  ActivityIndicator,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -18,12 +19,12 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import axios from "axios";
-import LoaderEffect from "../components/LoaderEffect";
+import LoaderEffect from "../components/InitLoaderEffect";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
-const verifyOTP = (mobile, Token, otp, navigation) => {
+const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading]) => {
   const apiUrl = "https://heartitout.in/welcome/wp-json/check_details/v1";
 
   try {
@@ -33,30 +34,36 @@ const verifyOTP = (mobile, Token, otp, navigation) => {
       otp: otp,
     };
 
-    axios.post(apiUrl, requestData).then((res) => {
+    axios.post(apiUrl, requestData).then(async (res) => {
       if (res.data.Status == "Get_Details") {
+        await AsyncStorage.setItem("token", Token);
         navigation.navigate("main");
-        // AsyncStorage.setItem("token", Token).then((value) => {
-        //   console.log(value);
-        // });
-        //Tokenization here
       } else if (res.data.Status == "Success") {
-        // AsyncStorage.setItem("token", Token);
+        await AsyncStorage.setItem("token", Token);
         navigation.navigate("main");
-        //Tokenization here
       } else {
         console.log("wrong otp received");
+        setLoading(false)
       }
     }).catch((err)=>{
       console.log(err)
+      setLoading(false)
     });
   } catch (error) {
-    console.error("Error requesting OTP:", error.message);
+    console.log("Error requesting OTP:", error.message);
+    setLoading(false)
   }
 };
 
 export default function Verify({ navigation, route }) {
   const [value, setValue] = useState("91");
+  const [otp, setOtp] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  navigation.addListener('focus',(ref)=>{
+    setLoading(false);
+    setOtp(false);
+  })
 
   // const navigation = useNavigation();
 
@@ -117,17 +124,20 @@ export default function Verify({ navigation, route }) {
             style={{ height: hp(7), width: wp(80) }}
             onPress={() => {
               // await verifyOTP("91","9399435543",);
+              setLoading(true);
               verifyOTP(
                 route.params.mobile,
                 route.params.Token,
                 number,
-                navigation
+                navigation,
+                [loading, setLoading]
               );
             }}
             // onPress={()="">{} }
           >
             <Text className="text-[22.48px] text-white">Verify OTP</Text>
           </TouchableOpacity>
+          <ActivityIndicator animating={loading} size="small"/>
         </View>
       </ScrollView>
     </SafeAreaView>

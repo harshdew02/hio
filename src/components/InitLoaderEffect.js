@@ -1,14 +1,34 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TopBar from "../components/TopBar";
+import TopBar from "./TopBar";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import LottieView from "lottie-react-native";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function LoaderEffect() {
+
+
+export default function InitLoaderEffect() {
+
+  const navigation = useNavigation();
+
+  navigation.addListener('focus',async (ref)=>{
+    try {
+      let token = await AsyncStorage.getItem('token');
+      if(token == null || token == undefined)
+        navigation.navigate('LoginPage');
+      else
+        navigation.navigate('main')
+    } catch (error) {
+      navigation.navigate('LoginPage');
+    }
+  }
+  )
+  
   return (
     <SafeAreaView className="bg-white" style={{ height: hp(100) }}>
       <TopBar />
@@ -28,6 +48,7 @@ export default function LoaderEffect() {
           Relax while we setup your Personalised Wellbeing Dashboard
         </Text>
       </View>
+
     </SafeAreaView>
   );
 }
