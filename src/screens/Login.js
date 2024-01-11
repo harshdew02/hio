@@ -1489,13 +1489,19 @@ const requestOTP = async (code, number, navigation) => {
       if (res.data.Status == "Success")
         navigation.navigate("verifyPage", res.data);
       else console.log("Error:" + res.data.Status);
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err);
     });
   } catch (error) {
     console.error("Error requesting OTP:", error.message);
   }
 };
+
+
+import Logo from '../../assets/images/Frame37589.svg';
+import Logo2 from '../../assets/images/frame1.svg';
+import Logo3 from '../../assets/images/Group163007.svg';
+import Logo4 from '../../assets/images/myvec.svg';
 
 const Login = () => {
   const [value, setValue] = useState("91");
@@ -1519,50 +1525,44 @@ const Login = () => {
   return (
     <SafeAreaView>
       <TopBar />
-      <ScrollView>
+      <ScrollView >
         <StatusBar
           backgroundColor={"#fff"}
           barStyle={"dark-content"}
           hidden={false}
         />
 
-        <View style={styles.box}>
-          <View className="bg-[#EAF7FC]" style={styles.vect}></View>
-          <View className="flex-col justify-end" style={{ height: hp(45) }}>
-            <Image
-              className="mt-8"
-              style={styles.display}
-              source={require("../../assets/images/display.png")}
-            />
-          </View>
-          <View style={{ height: hp(10) }}></View>
-        </View>
+        {/* <View style={styles.box}> */}
+        {/* <View className="bg-[#EAF7FC]" style={styles.vect}>
+          </View> */}
+
+        <Logo4 width={wp(100)} height={wp(85)} style={styles.box} />
+        {/* <View style={{ height: hp(10) }}></View> */}
+        {/* </View> */}
 
         <View
-          className="flex-col items-center mt-12 justify-between"
-          style={{ height: hp(40) }}
+          className="flex-col items-center"
+          style={{ marginTop: hp(2.5) }}
         >
-          <Text className="text-[#01818C] text-2xl font-bold">
+
+          <Text style={styles.well}>
             Your Wellbeing Comes First!
           </Text>
-          <View className="flex-col items-center">
-            <Text className="text-base">
-              Get instant one-click appointments
-            </Text>
-            <Text className="text-base">
-              track your wellbeing journey, access
-            </Text>
-            <Text className="text-base">session notes, and more.</Text>
-            <Text className="text-base font-bold">All in one place!</Text>
-          </View>
 
-          <Text className="text-[22px] font-[700]">
+          <Text style={styles.getinstant}>
+            Get instant one-click appointments, track your wellbeing journey, access session notes, and more.
+          </Text>
+          <Text style={styles.allinone}>
+            All in one place!
+          </Text>
+
+          <Text style={styles.enterphone}>
             Enter your Phone Number
           </Text>
 
           <View
-            className="flex-row items-center mt-8"
-            style={{ width: wp(85) }}
+            className="flex-row items-center"
+            style={{ width: wp(82), marginTop: hp(3) }}
           >
             <Dropdown
               style={styles.dropdown}
@@ -1572,9 +1572,10 @@ const Login = () => {
               iconStyle={styles.iconStyle}
               data={data}
               maxHeight={150}
-              labelField="code"
+              iconColor="#455A64"
+              labelField="dial_code"
               valueField="ccode"
-              placeholder="IN"
+              placeholder="+91"
               searchPlaceholder="Search..."
               value={value}
               onChange={(item) => {
@@ -1583,23 +1584,21 @@ const Login = () => {
             />
 
             <TextInput
-              className="rounded-lg"
               style={styles.input}
               onChangeText={onChangeNumber}
               value={number}
-              placeholder="Enter Your Phone Number"
+              // placeholder="6266019364"
               keyboardType="numeric"
             />
           </View>
 
           <TouchableOpacity
-            className="bg-[#32959D] rounded-full py-3 mt-8 items-center"
-            style={{ height: hp(7), width: wp(80) }}
+            style={styles.button}
             onPress={() => {
               requestOTP(value, number, navigation);
             }}
           >
-            <Text className="text-[22.48px] text-white">Get OTP</Text>
+            <Text style={styles.textStyle}>Get OTP</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -1610,12 +1609,50 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
+
+  well: {
+    // Your Wellbeing Comes First!
+    color: '#01818C',
+    fontSize: wp(6),
+    fontFamily: 'Roboto',
+    fontWeight: '700',
+  },
+
+  getinstant: {
+    color: '#455A64',
+    fontSize: wp(4.2),
+    fontFamily: 'Roboto',
+    fontWeight: '400',
+    lineHeight: wp(6),
+    width: wp(75),
+    textAlign: 'center',
+    marginTop: wp(0.5)
+  },
+  allinone: {
+    color: '#455A64',
+    fontSize: wp(4),
+    fontFamily: 'Roboto',
+    fontWeight: '700',
+    width: wp(75),
+    textAlign: 'center',
+  },
+
+  enterphone: {
+    // Enter your Phone Number
+    color: '#043953',
+    fontSize: wp(5),
+    fontFamily: 'Roboto',
+    fontWeight: '700',
+    marginTop: hp(2)
+  },
+
+
   vect: {
-    width: "150%",
-    height: "95%",
+    width: wp(140),
+    height: hp(38),
     background: "#EAF7FC",
-    borderBottomRightRadius: 350,
-    borderBottomLeftRadius: 350,
+    borderBottomRightRadius: wp(100),
+    borderBottomLeftRadius: wp(100),
     position: "absolute",
   },
   box: {
@@ -1631,29 +1668,56 @@ const styles = StyleSheet.create({
   },
   input: {
     height: hp(7),
-    width: wp(70),
-    borderTopWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-    padding: 10,
-    paddingLeft: 25,
-    position: "absolute",
-    right: 0,
+    width: wp(83),
+    backgroundColor: 'white',
+    borderRadius: wp(3),
+    borderWidth: wp(0.4),
+    borderColor: 'rgba(69, 90, 100, 0.30)',
+    borderStyle: 'solid',
+    color: '#455A64',
+    fontWeight: '600',
+    paddingLeft: wp(21),
+    fontSize: wp(4),
   },
   dropdown: {
-    marginTop: 7,
+    // marginTop: 7,
     height: hp(7),
     width: wp(20),
-    backgroundColor: "white",
-    borderRadius: 12,
-    borderColor: "black",
-    borderWidth: 1,
-    borderStyle: "solid",
-    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: wp(3),
+    borderWidth: wp(0.4),
+    borderColor: 'rgba(69, 90, 100, 0.30)',
     left: 0,
-    zIndex: 3,
+    zIndex: 1,
+    paddingLeft: wp(1),
+    paddingRight: wp(3),
     position: "absolute",
   },
+
+  placeholderStyle: {
+    fontSize: 20,
+  },
+  selectedTextStyle: {
+    height: wp(6),
+    fontSize: wp(4),
+    color: '#455A64',
+    position: 'absolute',
+    zIndex: 1,
+    fontFamily: 'Roboto',
+    fontWeight: '600',
+    right: 0
+  },
+  iconStyle: {
+    width: wp(7),
+    position: 'absolute',
+    left: 0,
+    height: wp(7),
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+
   icon: {
     marginRight: 5,
   },
@@ -1667,18 +1731,25 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
   },
-  placeholderStyle: {
-    fontSize: 16,
+
+  button: {
+    height: hp(7.3),
+    width: wp(82),
+    marginTop: hp(4),
+    backgroundColor: '#32959D',
+    borderRadius: wp(10),
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: hp(10)
   },
-  selectedTextStyle: {
-    fontSize: 16,
+
+  textStyle: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: wp(5.5),
+    fontFamily: 'Roboto',
+    fontWeight: '500',
   },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
+
 });

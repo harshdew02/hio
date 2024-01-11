@@ -18,6 +18,7 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import axios from "axios";
+import LoaderEffect from "../components/LoaderEffect";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";

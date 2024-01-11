@@ -12,6 +12,7 @@ import RightDrawer from "./RightDrawer";
 import BottomTabs from "./BottomTabs";
 import Verify from "../screens/Verify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoaderEffect from "../components/LoaderEffect";
 
 
 export default function AppNavigation() {
@@ -36,9 +37,15 @@ export default function AppNavigation() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName={`${front}`}
-                screenOptions={{ headerShown: false }}
+                // initialRouteName={`${front}`}
+                initialRouteName="LoginPage"
+                screenOptions={{ headerShown: false,
+                contentStyle:{
+                    backgroundColor:'#FFFFFF'
+                }
+                }}
             >
+                <Stack.Screen name="loader" component={LoaderEffect}/>
                 <Stack.Screen name="verifyPage" component={Verify} />
                 <Stack.Screen name="main" component={RightDrawer} />
                 <Stack.Screen name="LoginPage" component={Login} />
