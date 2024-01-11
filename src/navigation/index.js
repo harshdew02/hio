@@ -18,7 +18,7 @@ import Register from "../screens/Register";
 
 export default function AppNavigation() {
 
-    
+
     const Stack = createNativeStackNavigator();
     const [front, setFront] = React.useState('LoginPage')
 
@@ -34,19 +34,20 @@ export default function AppNavigation() {
     //     byPass();
     //     // console.log(token)
     // }, [])
-    
+
     return (
         <NavigationContainer>
             <Stack.Navigator
                 // initialRouteName={`${front}`}
-                initialRouteName="registerPage"
-                screenOptions={{ headerShown: false,
-                contentStyle:{
-                    backgroundColor:'#FFFFFF'
-                }
+                initialRouteName="LoginPage"
+                screenOptions={{
+                    headerShown: false,
+                    contentStyle: {
+                        backgroundColor: '#FFFFFF'
+                    }
                 }}
             >
-                <Stack.Screen name="loader" component={LoaderEffect}/>
+                <Stack.Screen name="loader" component={LoaderEffect} />
                 <Stack.Screen name="verifyPage" component={Verify} />
                 <Stack.Screen name="main" component={RightDrawer} />
                 <Stack.Screen name="LoginPage" component={Login} />
