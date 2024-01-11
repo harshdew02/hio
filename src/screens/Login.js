@@ -1593,7 +1593,7 @@ const Login = () => {
           >
             <Text style={styles.textStyle}>Get OTP</Text>
           </TouchableOpacity>
-          <ActivityIndicator animating={loading} size="small" />
+          <ActivityIndicator animating={loading} size="large" />
         </View>
       </ScrollView>
     </SafeAreaView>

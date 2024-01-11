@@ -34,24 +34,27 @@ const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading]) => {
       otp: otp,
     };
 
-    axios.post(apiUrl, requestData).then(async (res) => {
-      if (res.data.Status == "Get_Details") {
-        await AsyncStorage.setItem("token", Token);
-        navigation.navigate("main");
-      } else if (res.data.Status == "Success") {
-        await AsyncStorage.setItem("token", Token);
-        navigation.navigate("main");
-      } else {
-        console.log("wrong otp received");
-        setLoading(false)
-      }
-    }).catch((err) => {
-      console.log(err)
-      setLoading(false)
-    });
+    axios
+      .post(apiUrl, requestData)
+      .then(async (res) => {
+        if (res.data.Status == "Get_Details") {
+          await AsyncStorage.setItem("token", Token);
+          navigation.navigate("main");
+        } else if (res.data.Status == "Success") {
+          await AsyncStorage.setItem("token", Token);
+          navigation.navigate("main");
+        } else {
+          console.log("wrong otp received");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   } catch (error) {
     console.log("Error requesting OTP:", error.message);
-    setLoading(false)
+    setLoading(false);
   }
 };
 
@@ -63,67 +66,60 @@ const requestOTP = async (mobile, [loading, setLoading]) => {
       ch: "send_otp",
       mob: mobile,
     };
-    if((mobile).length < 10)
-      throw new Error('Mobile number is too short')
+    if (mobile.length < 10) throw new Error("Mobile number is too short");
 
     axios
       .post(apiUrl, requestData)
       .then((res) => {
-        if (res.data.Status == "Success")
-          setLoading(false)
+        if (res.data.Status == "Success") setLoading(false);
         else console.log("Error:" + res.data.Status);
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false)
+        setLoading(false);
       });
   } catch (error) {
     console.log("Error requesting OTP:", error.message);
-    setLoading(false)
+    setLoading(false);
   }
-}
+};
 
-
-import Logo4 from '../../assets/images/verifyDisplay.svg';
-import Back from '../../assets/images/arrow.svg';
+import Logo4 from "../../assets/images/verifyDisplay.svg";
+import Back from "../../assets/images/arrow.svg";
 
 export default function Verify({ navigation, route }) {
   const [value, setValue] = useState("91");
   const [otp, setOtp] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  navigation.addListener('focus',(ref)=>{
+  navigation.addListener("focus", (ref) => {
     setLoading(false);
     setOtp(false);
-  })
+  });
 
   // const navigation = useNavigation();
 
   const [number, onChangeNumber] = React.useState("");
 
-
-
   return (
     <SafeAreaView>
       <TopBar />
       <ScrollView>
-
         <View style={styles.box}>
-          <TouchableOpacity style={{ position: 'absolute', left: wp(8) }}>
+          <TouchableOpacity style={{ position: "absolute", left: wp(8) }} onPress={()=>{navigation.navigate('LoginPage')}}>
             <Back width={wp(8.5)} height={wp(8.5)} />
           </TouchableOpacity>
           <Logo4 width={wp(46)} height={wp(37)} style={{ marginTop: hp(2) }} />
         </View>
 
-        <View
-          style={{ marginTop: hp(4) }}
-          className="flex-col items-center"
-        >
+        <View style={{ marginTop: hp(4) }} className="flex-col items-center">
           <Text style={styles.enterphone}>Verification Code</Text>
 
-          <Text style={styles.getinstant}>We have sent the code verification to your Phone Number</Text>
+          <Text style={styles.getinstant}>
+            We have sent the code verification to your Phone Number
+          </Text>
 
-          <Text style={styles.mob} >+{route.params.mobile}</Text>
+          <Text style={styles.mob}>+{route.params.mobile}</Text>
 
           <TextInput
             className="rounded-lg"
@@ -151,16 +147,19 @@ export default function Verify({ navigation, route }) {
             <Text style={styles.textStyle}>Verify OTP</Text>
           </TouchableOpacity>
 
-          <ActivityIndicator animating={loading} size="small"/>
-
           <View className="flex-row" style={styles.resend}>
-            <Text style={styles.check}>Haven’t received an OTP?  </Text>
-            <TouchableOpacity onPress={()=>{
-              setLoading(true)
-              requestOTP(route.params.mobile, [loading, setLoading])}}>
-            <Text style={styles.check1}>RESEND OTP</Text>
+            <Text style={styles.check}>Haven’t received an OTP? </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setLoading(true);
+                requestOTP(route.params.mobile, [loading, setLoading]);
+              }}
+            >
+              <Text style={styles.check1}>RESEND OTP</Text>
             </TouchableOpacity>
           </View>
+
+          <ActivityIndicator animating={loading} size="large" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -168,35 +167,33 @@ export default function Verify({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-
   enterphone: {
     // Enter your Phone Number
-    color: '#043953',
+    color: "#043953",
     fontSize: wp(5),
-    fontFamily: 'Roboto',
-    fontWeight: '700',
+    fontFamily: "Roboto",
+    fontWeight: "700",
   },
 
   getinstant: {
     width: wp(84),
     // hp(6)
-    color: '#455A64',
+    color: "#455A64",
     fontSize: wp(4),
-    fontFamily: 'Roboto',
-    textAlign: 'center',
-    fontWeight: '400',
+    fontFamily: "Roboto",
+    textAlign: "center",
+    fontWeight: "400",
     lineHeight: wp(6),
-    marginTop: hp(2)
+    marginTop: hp(2),
   },
 
   mob: {
-    color: '#043953',
+    color: "#043953",
     fontSize: wp(4),
-    fontFamily: 'Roboto',
-    fontWeight: '700',
-    marginTop: hp(2)
+    fontFamily: "Roboto",
+    fontWeight: "700",
+    marginTop: hp(2),
   },
-
 
   box: {
     // overflow: 'hidden',
@@ -216,39 +213,38 @@ const styles = StyleSheet.create({
     height: hp(7.3),
     width: wp(82),
     marginTop: hp(4),
-    backgroundColor: '#32959D',
+    backgroundColor: "#32959D",
     borderRadius: wp(10),
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
 
   textStyle: {
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
     fontSize: wp(5),
-    fontFamily: 'Roboto',
-    fontWeight: '500',
+    fontFamily: "Roboto",
+    fontWeight: "500",
   },
 
   resend: {
     marginTop: hp(3),
-    marginBottom: hp(10)
+    marginBottom: hp(10),
   },
 
   check: {
-    color: '#455A64',
+    color: "#455A64",
     fontSize: wp(3.4),
-    fontFamily: 'Roboto',
-    fontWeight: '400',
+    fontFamily: "Roboto",
+    fontWeight: "400",
   },
 
   check1: {
-    color: '#043953',
+    color: "#043953",
     fontSize: wp(3.4),
-    fontFamily: 'Roboto',
-    fontWeight: '700',
-    textDecorationLine: 'underline',
-  }
-
+    fontFamily: "Roboto",
+    fontWeight: "700",
+    textDecorationLine: "underline",
+  },
 });
