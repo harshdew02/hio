@@ -1506,10 +1506,13 @@ const requestOTP = async (code, number, navigation, [loading, setLoading]) => {
   }
 };
 
-import Logo from "../../assets/images/Frame37589.svg";
-import Logo2 from "../../assets/images/frame1.svg";
-import Logo3 from "../../assets/images/Group163007.svg";
-import Logo4 from "../../assets/images/myvec.svg";
+
+import Logo4 from '../../assets/images/myvec.svg';
+
+
+
+
+
 
 const Login = () => {
   const [value, setValue] = useState("91");
@@ -1734,10 +1737,10 @@ const styles = StyleSheet.create({
   },
 
   textStyle: {
-    textAlign: "center",
-    color: "white",
-    fontSize: wp(5.5),
-    fontFamily: "Roboto",
-    fontWeight: "500",
+    textAlign: 'center',
+    color: 'white',
+    fontSize: wp(5),
+    fontFamily: 'Roboto',
+    fontWeight: '500',
   },
 });
