@@ -13,6 +13,7 @@ import BottomTabs from "./BottomTabs";
 import Verify from "../screens/Verify";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoaderEffect from "../components/InitLoaderEffect";
+import Register from "../screens/Register";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function AppNavigation() {
         <Stack.Screen name="main" component={RightDrawer} />
         <Stack.Screen name="LoginPage" component={Login} />
         <Stack.Screen name="verifyPage" component={Verify} />
+        <Stack.Screen name="registerPage" component={Register}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

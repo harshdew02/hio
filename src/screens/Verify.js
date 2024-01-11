@@ -38,8 +38,8 @@ const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading]) => {
       .post(apiUrl, requestData)
       .then(async (res) => {
         if (res.data.Status == "Get_Details") {
-          await AsyncStorage.setItem("token", Token);
-          navigation.navigate("main");
+          // await AsyncStorage.setItem("token", Token);
+          navigation.navigate("registerPage");
         } else if (res.data.Status == "Success") {
           await AsyncStorage.setItem("token", Token);
           navigation.navigate("main");
