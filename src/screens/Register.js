@@ -1604,12 +1604,12 @@ export default function Register() {
                         <View style={styles.container}></View>
                     </View>
 
-                    <View className="flex-row">
-                        <View style={styles.outerCircle}>
-                        <Google />
-                        </View>
-                        <Facebook/>
-                        <Mail/>
+                    <View className="flex-row justify-between" style={{width: wp(55), marginTop: hp(3)}}>
+                        {/* <View style={styles.outerCircle}> */}
+                        <Google width={wp(12)} height={wp(12)} style={styles.outerCircle} />
+                        {/* </View> */}
+                        <Facebook width={wp(12)} height={wp(12)} style={styles.outerCircle} />
+                        <Mail width={wp(12)} height={wp(12)} style={styles.outerCircle} />
                     </View>
 
 
@@ -1622,19 +1622,22 @@ export default function Register() {
 const styles = StyleSheet.create({
 
     outerCircle: {
-        width: 48,
-        height: 48,
         // left: 0,
         // top: 0,
         // position: 'absolute',
         backgroundColor: 'white',
-        borderRadius: 9999,
+        borderRadius: wp(40),
         shadowColor: '#01818C',
-        shadowOffset: { width: 0, height: 2.0316457748413086 },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.5,
         shadowRadius: 1.3544304370880127,
-        elevation: 5
-      },
+        elevation: 10,
+
+        // elevation: 5, // Adjust the value as needed
+        // shadowColor: '#01818C',
+        // shadowOffset: { width: wp(0.2), height: wp(0.2) },
+        // shadowOpacity: 0.32,
+        // shadowRadius: wp(3),
+    },
 
     enterphone: {
         // Enter your Phone Number
