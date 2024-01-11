@@ -6,6 +6,7 @@ import {
   StatusBar,
   StyleSheet,
   TextInput,
+  ActivityIndicator,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -18,12 +19,12 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import axios from "axios";
-import LoaderEffect from "../components/LoaderEffect";
+import LoaderEffect from "../components/InitLoaderEffect";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
-const verifyOTP = (mobile, Token, otp, navigation) => {
+const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading]) => {
   const apiUrl = "https://heartitout.in/welcome/wp-json/check_details/v1";
 
   try {
@@ -33,30 +34,68 @@ const verifyOTP = (mobile, Token, otp, navigation) => {
       otp: otp,
     };
 
-    axios.post(apiUrl, requestData).then((res) => {
-      if (res.data.Status == "Get_Details") {
-        navigation.navigate("main");
-        // AsyncStorage.setItem("token", Token).then((value) => {
-        //   console.log(value);
-        // });
-        //Tokenization here
-      } else if (res.data.Status == "Success") {
-        // AsyncStorage.setItem("token", Token);
-        navigation.navigate("main");
-        //Tokenization here
-      } else {
-        console.log("wrong otp received");
-      }
-    }).catch((err)=>{
-      console.log(err)
-    });
+    axios
+      .post(apiUrl, requestData)
+      .then(async (res) => {
+        if (res.data.Status == "Get_Details") {
+          await AsyncStorage.setItem("token", Token);
+          navigation.navigate("main");
+        } else if (res.data.Status == "Success") {
+          await AsyncStorage.setItem("token", Token);
+          navigation.navigate("main");
+        } else {
+          console.log("wrong otp received");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   } catch (error) {
-    console.error("Error requesting OTP:", error.message);
+    console.log("Error requesting OTP:", error.message);
+    setLoading(false);
   }
 };
 
+const requestOTP = async (mobile, [loading, setLoading]) => {
+  const apiUrl = "https://heartitout.in/welcome/wp-json/otp_signup_process/v2";
+
+  try {
+    const requestData = {
+      ch: "send_otp",
+      mob: mobile,
+    };
+    if (mobile.length < 10) throw new Error("Mobile number is too short");
+
+    axios
+      .post(apiUrl, requestData)
+      .then((res) => {
+        if (res.data.Status == "Success") setLoading(false);
+        else console.log("Error:" + res.data.Status);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  } catch (error) {
+    console.log("Error requesting OTP:", error.message);
+    setLoading(false);
+  }
+};
+
+import Logo4 from "../../assets/images/verifyDisplay.svg";
+import Back from "../../assets/images/arrow.svg";
+
 export default function Verify({ navigation, route }) {
   const [value, setValue] = useState("91");
+  const [otp, setOtp] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  navigation.addListener("focus", (ref) => {
+    setLoading(false);
+    setOtp(false);
+  });
 
   // const navigation = useNavigation();
 
@@ -67,67 +106,60 @@ export default function Verify({ navigation, route }) {
       <TopBar />
       <ScrollView>
         <View style={styles.box}>
-          <View className="bg-[#EAF7FC]" style={styles.vect}></View>
-          <View className="flex-col justify-end" style={{ height: hp(45) }}>
-            <Image
-              className="mt-8"
-              style={styles.display}
-              source={require("../../assets/images/display.png")}
-            />
-          </View>
-          <View style={{ height: hp(10) }}></View>
+          <TouchableOpacity style={{ position: "absolute", left: wp(8) }} onPress={()=>{navigation.navigate('LoginPage')}}>
+            <Back width={wp(8.5)} height={wp(8.5)} />
+          </TouchableOpacity>
+          <Logo4 width={wp(46)} height={wp(37)} style={{ marginTop: hp(2) }} />
         </View>
 
-        <View
-          className="flex-col items-center mt-12 justify-between"
-          style={{ height: hp(40) }}
-        >
-          <Text className="text-[#01818C] text-2xl font-bold">
-            Your Wellbeing Comes First!
+        <View style={{ marginTop: hp(4) }} className="flex-col items-center">
+          <Text style={styles.enterphone}>Verification Code</Text>
+
+          <Text style={styles.getinstant}>
+            We have sent the code verification to your Phone Number
           </Text>
-          {/* <View className="flex-col items-center">
-            <Text className="text-base">
-              Get instant one-click appointments
-            </Text>
-            <Text className="text-base">
-              track your wellbeing journey, access
-            </Text>
-            <Text className="text-base">session notes, and more.</Text>
-            <Text className="text-base font-bold">All in one place!</Text>
-          </View> */}
 
-          <Text className="text-[22px] font-[700]">Enter Your OTP</Text>
+          <Text style={styles.mob}>+{route.params.mobile}</Text>
 
-          <View
-            className="flex-row justify-around items-center mt-8"
-            style={{ width: wp(85) }}
-          >
-            <TextInput
-              className="rounded-lg"
-              style={styles.input}
-              onChangeText={onChangeNumber}
-              value={number}
-              placeholder="Enter OTP"
-              keyboardType="numeric"
-            />
-          </View>
+          <TextInput
+            className="rounded-lg"
+            style={styles.input}
+            onChangeText={onChangeNumber}
+            value={number}
+            placeholder="Enter OTP"
+            keyboardType="numeric"
+          />
 
           <TouchableOpacity
-            className="bg-[#32959D] rounded-full py-3 mt-8 items-center"
-            style={{ height: hp(7), width: wp(80) }}
+            style={styles.button}
             onPress={() => {
               // await verifyOTP("91","9399435543",);
+              setLoading(true);
               verifyOTP(
                 route.params.mobile,
                 route.params.Token,
                 number,
-                navigation
+                navigation,
+                [loading, setLoading]
               );
             }}
-            // onPress={()="">{} }
           >
-            <Text className="text-[22.48px] text-white">Verify OTP</Text>
+            <Text style={styles.textStyle}>Verify OTP</Text>
           </TouchableOpacity>
+
+          <View className="flex-row" style={styles.resend}>
+            <Text style={styles.check}>Haven’t received an OTP? </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setLoading(true);
+                requestOTP(route.params.mobile, [loading, setLoading]);
+              }}
+            >
+              <Text style={styles.check1}>RESEND OTP</Text>
+            </TouchableOpacity>
+          </View>
+
+          <ActivityIndicator animating={loading} size="large" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -135,70 +167,84 @@ export default function Verify({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  vect: {
-    width: "150%",
-    height: "95%",
-    background: "#EAF7FC",
-    borderBottomRightRadius: 350,
-    borderBottomLeftRadius: 350,
-    position: "absolute",
+  enterphone: {
+    // Enter your Phone Number
+    color: "#043953",
+    fontSize: wp(5),
+    fontFamily: "Roboto",
+    fontWeight: "700",
   },
+
+  getinstant: {
+    width: wp(84),
+    // hp(6)
+    color: "#455A64",
+    fontSize: wp(4),
+    fontFamily: "Roboto",
+    textAlign: "center",
+    fontWeight: "400",
+    lineHeight: wp(6),
+    marginTop: hp(2),
+  },
+
+  mob: {
+    color: "#043953",
+    fontSize: wp(4),
+    fontFamily: "Roboto",
+    fontWeight: "700",
+    marginTop: hp(2),
+  },
+
   box: {
     // overflow: 'hidden',
     alignItems: "center",
-    height: hp(40),
-    width: wp(100),
+    marginTop: hp(13),
     // backgroundColor: 'red'
-  },
-  display: {
-    width: wp(60),
-    height: wp(61),
   },
   input: {
     height: hp(7),
     width: wp(70),
     borderWidth: 1,
     padding: 10,
+    marginTop: hp(3),
   },
-  dropdown: {
-    marginTop: 7,
-    height: hp(7),
-    width: wp(20),
-    backgroundColor: "white",
-    borderRadius: 12,
-    borderColor: "black",
-    borderWidth: 1,
-    borderStyle: "solid",
-    padding: 10,
-    left: 0,
-    zIndex: 3,
-    position: "absolute",
-  },
-  icon: {
-    marginRight: 5,
-  },
-  item: {
-    padding: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
+
+  button: {
+    height: hp(7.3),
+    width: wp(82),
+    marginTop: hp(4),
+    backgroundColor: "#32959D",
+    borderRadius: wp(10),
+    justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
   },
-  textItem: {
-    flex: 1,
-    fontSize: 16,
+
+  textStyle: {
+    textAlign: "center",
+    color: "white",
+    fontSize: wp(5),
+    fontFamily: "Roboto",
+    fontWeight: "500",
   },
-  placeholderStyle: {
-    fontSize: 16,
+
+  resend: {
+    marginTop: hp(3),
+    marginBottom: hp(10),
   },
-  selectedTextStyle: {
-    fontSize: 16,
+
+  check: {
+    color: "#455A64",
+    fontSize: wp(3.4),
+    fontFamily: "Roboto",
+    fontWeight: "400",
   },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
+
+  check1: {
+    color: "#043953",
+    fontSize: wp(3.4),
+    fontFamily: "Roboto",
+    fontWeight: "700",
+    textDecorationLine: "underline",
   },
 });
