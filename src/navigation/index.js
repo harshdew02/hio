@@ -21,8 +21,15 @@ export default function AppNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={'loader'}
-        screenOptions={{ headerShown: false }}
+        screenOptions={{
+          contentStyle: {
+            backgroundColor: '#FFFFFF'
+          },
+          headerShown: false
+        }}
+        initialRouteName={'LoginPage'}
+        // initialRouteName={'loader'}
+
       >
         <Stack.Screen name="loader" component={LoaderEffect} />
         <Stack.Screen name="main" component={RightDrawer} />
