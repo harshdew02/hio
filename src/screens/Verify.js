@@ -106,7 +106,7 @@ export default function Verify({ navigation, route }) {
       <TopBar />
       <ScrollView>
         <View style={styles.box}>
-          <TouchableOpacity style={{ position: "absolute", left: wp(8) }} onPress={()=>{navigation.navigate('LoginPage')}}>
+          <TouchableOpacity style={{ position: "absolute", left: wp(8) }} onPress={() => { navigation.navigate('LoginPage') }}>
             <Back width={wp(8.5)} height={wp(8.5)} />
           </TouchableOpacity>
           <Logo4 width={wp(46)} height={wp(37)} style={{ marginTop: hp(2) }} />
@@ -119,7 +119,9 @@ export default function Verify({ navigation, route }) {
             We have sent the code verification to your Phone Number
           </Text>
 
-          <Text style={styles.mob}>+{route.params.mobile}</Text>
+          {/* <Text style={styles.mob}>+{route.params.mobile}</Text> */}
+          <Text style={styles.mob}>+539499439483</Text>
+
 
           <TextInput
             className="rounded-lg"
@@ -129,6 +131,8 @@ export default function Verify({ navigation, route }) {
             placeholder="Enter OTP"
             keyboardType="numeric"
           />
+
+          <Text style={styles.wrong}>You entered the wrong code. Please try again.</Text>
 
           <TouchableOpacity
             style={styles.button}
@@ -167,6 +171,16 @@ export default function Verify({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+
+  wrong: {
+
+    marginTop: hp(2),
+    color: '#D1421D',
+    fontSize: wp(3),
+    fontFamily: 'Roboto',
+    fontWeight: '400'
+  },
+
   enterphone: {
     // Enter your Phone Number
     color: "#043953",

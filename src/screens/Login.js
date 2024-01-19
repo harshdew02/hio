@@ -243,6 +243,8 @@ const Login = () => {
             />
           </View>
 
+          <ActivityIndicator animating={loading} size="large" />
+
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -252,7 +254,6 @@ const Login = () => {
           >
             <Text style={styles.textStyle}>Get OTP</Text>
           </TouchableOpacity>
-          <ActivityIndicator animating={loading} size="large" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -400,13 +401,13 @@ const styles = StyleSheet.create({
   button: {
     height: hp(7.3),
     width: wp(82),
-    marginTop: hp(4),
+    marginTop: hp(1),
     backgroundColor: "#32959D",
     borderRadius: wp(10),
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    marginBottom: hp(1),
+    marginBottom: hp(3),
   },
 
   textStyle: {
