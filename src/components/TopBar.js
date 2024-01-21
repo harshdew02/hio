@@ -14,10 +14,7 @@ export default function TopBar() {
         barStyle={"dark-content"}
         hidden={false}
       />
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
         <Image source={require('../../assets/logo.png')} style={{ width: wp(25), height: hp(8) , marginLeft: wp(4) , marginBottom: hp(1) }} />
-      </TouchableOpacity>
-
     </View>
   )
 }
