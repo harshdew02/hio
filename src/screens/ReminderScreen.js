@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Back from "../../assets/images/arrow.svg";
 import TopBarMain from '../components/TopBarMain';
@@ -49,6 +49,7 @@ const Card = ({ isTick }) => {
 
 
 export default function ReminderScreen({ navigation }) {
+    const [ifReminder, setIfReminder] = useState(true);
     return (
         <SafeAreaView>
             <TopBarMain />
@@ -74,9 +75,10 @@ export default function ReminderScreen({ navigation }) {
             </View>
 
             <View className="flex-col items-center" style={{ marginTop: hp(2) }}>
-                {/* <Card isTick={0}/> */}
+                {ifReminder ?
+                (<Card isTick={0}/>) :
 
-                <View className="flex-col items-center">
+                (<View className="flex-col items-center">
                     <Image
                         className="mr-8"
                         source={require("../../assets/images/noReminders.gif")}
@@ -89,6 +91,8 @@ export default function ReminderScreen({ navigation }) {
                         fontWeight: '600'
                     }}>You have no reminders.</Text>
                 </View>
+                )
+            }
             </View>
         </SafeAreaView>
     )
