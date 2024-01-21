@@ -56,11 +56,6 @@ const requestOTP = async (code, number, navigation, [loading, setLoading]) => {
 
 import Logo4 from '../../assets/images/myvec.svg';
 
-
-
-
-
-
 const Login = () => {
   const [value, setValue] = useState("91");
   const [loading, setLoading] = useState(false);
@@ -121,7 +116,7 @@ const Login = () => {
               // onBlur={() => setIsFocus(false)}
               labelField="show"
               valueField="ccode"
-              placeholder="IN(+918)"
+              placeholder="IN(+91)"
               searchPlaceholder="Search..."
               value={value}
               onChange={(item) => {
