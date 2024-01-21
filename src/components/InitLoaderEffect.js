@@ -22,7 +22,13 @@ export default function InitLoaderEffect() {
       if(token == null || token == undefined)
         navigation.navigate('LoginPage');
       else
-        navigation.navigate('main')
+      {
+        let byPass = await AsyncStorage.getItem('byPass');
+        if(byPass == 'L')
+          navigation.navigate('main')
+        else
+          navigation.navigate('register')
+      }
     } catch (error) {
       navigation.navigate('LoginPage');
     }

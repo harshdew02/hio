@@ -24,7 +24,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
-const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading]) => {
+const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading], [error, setError]) => {
   const apiUrl = "https://heartitout.in/welcome/wp-json/check_details/v1";
 
   try {
@@ -39,21 +39,26 @@ const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading]) => {
       .then(async (res) => {
         if (res.data.Status == "Get_Details") {
           await AsyncStorage.setItem("token", Token);
-          navigation.navigate("main");
+          await AsyncStorage.setItem('byPass', 'R');
+          navigation.navigate("register");
         } else if (res.data.Status == "Success") {
           await AsyncStorage.setItem("token", Token);
+          await AsyncStorage.setItem('byPass', 'L')
           navigation.navigate("main");
         } else {
           console.log("wrong otp received");
+          setError("You entered the wrong code. Please try again.");
           setLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
+        setError("Something went wrong. Please try again later.");
         setLoading(false);
       });
   } catch (error) {
     console.log("Error requesting OTP:", error.message);
+    setError("Something went wrong. Please try again later.");
     setLoading(false);
   }
 };
@@ -72,7 +77,9 @@ const requestOTP = async (mobile, [loading, setLoading]) => {
       .post(apiUrl, requestData)
       .then((res) => {
         if (res.data.Status == "Success") setLoading(false);
-        else console.log("Error:" + res.data.Status);
+        else {
+          console.log("Error:" + res.data.Status);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -91,12 +98,24 @@ export default function Verify({ navigation, route }) {
   const [value, setValue] = useState("91");
   const [otp, setOtp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(null);
 
   navigation.addListener("focus", (ref) => {
     setLoading(false);
     setOtp(false);
   });
 
+  // const handleButtonClick = (errorCode) => {
+  //   // Set different error messages based on the error code
+  //   if (errorCode === 1) {
+  //     setShowErrorMessage("Wrong OTP. Please try again.");
+  //   } else if (errorCode === 2) {
+  //     setShowErrorMessage("Something went wrong. Please try again later.");
+  //   } else {
+  //     // Handle other error codes if needed
+  //     setShowErrorMessage("Something went wrong. Please try again later.");
+  //   }
+  // };
   // const navigation = useNavigation();
 
   const [number, onChangeNumber] = React.useState("");
@@ -106,7 +125,12 @@ export default function Verify({ navigation, route }) {
       <TopBar />
       <ScrollView>
         <View style={styles.box}>
-          <TouchableOpacity style={{ position: "absolute", left: wp(8) }} onPress={() => { navigation.navigate('LoginPage') }}>
+          <TouchableOpacity
+            style={{ position: "absolute", left: wp(8) }}
+            onPress={() => {
+              navigation.navigate("LoginPage");
+            }}
+          >
             <Back width={wp(8.5)} height={wp(8.5)} />
           </TouchableOpacity>
           <Logo4 width={wp(46)} height={wp(37)} style={{ marginTop: hp(2) }} />
@@ -120,8 +144,7 @@ export default function Verify({ navigation, route }) {
           </Text>
 
           {/* <Text style={styles.mob}>+{route.params.mobile}</Text> */}
-          <Text style={styles.mob}>+539499439483</Text>
-
+          <Text style={styles.mob}>+{route.params.mobile}</Text>
 
           <TextInput
             className="rounded-lg"
@@ -132,19 +155,25 @@ export default function Verify({ navigation, route }) {
             keyboardType="numeric"
           />
 
-          <Text style={styles.wrong}>You entered the wrong code. Please try again.</Text>
+          {showErrorMessage && (
+            <Text style={styles.wrong}>
+              {showErrorMessage}
+            </Text>
+          )}
 
+          <ActivityIndicator animating={loading} size="large" />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              // await verifyOTP("91","9399435543",);
               setLoading(true);
+              setShowErrorMessage(null);
               verifyOTP(
                 route.params.mobile,
                 route.params.Token,
                 number,
                 navigation,
-                [loading, setLoading]
+                [loading, setLoading],
+                [showErrorMessage,setShowErrorMessage]
               );
             }}
           >
@@ -156,14 +185,13 @@ export default function Verify({ navigation, route }) {
             <TouchableOpacity
               onPress={() => {
                 setLoading(true);
+                setShowErrorMessage(null);
                 requestOTP(route.params.mobile, [loading, setLoading]);
               }}
             >
               <Text style={styles.check1}>RESEND OTP</Text>
             </TouchableOpacity>
           </View>
-
-          <ActivityIndicator animating={loading} size="large" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -171,14 +199,12 @@ export default function Verify({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-
   wrong: {
-
     marginTop: hp(2),
-    color: '#D1421D',
+    color: "#D1421D",
     fontSize: wp(3),
-    fontFamily: 'Roboto',
-    fontWeight: '400'
+    fontFamily: "Roboto",
+    fontWeight: "400",
   },
 
   enterphone: {
