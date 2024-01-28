@@ -29,8 +29,8 @@ export default function AppNavigation() {
           },
           headerShown: false
         }}
-        initialRouteName={'loader'}
-        // initialRouteName={'main'}
+        // initialRouteName={'loader'}
+        initialRouteName={'main'}
 
       >
         <Stack.Screen name="loader" component={LoaderEffect} />
