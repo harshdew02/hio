@@ -37,13 +37,8 @@ const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading], [error
     axios
       .post(apiUrl, requestData)
       .then(async (res) => {
-        if (res.data.Status == "Get_Details") {
+        if (res.data.Status == "Get_Details" || res.data.Status == "Success") {
           await AsyncStorage.setItem("token", Token);
-          await AsyncStorage.setItem('byPass', 'R');
-          navigation.navigate("register");
-        } else if (res.data.Status == "Success") {
-          await AsyncStorage.setItem("token", Token);
-          await AsyncStorage.setItem('byPass', 'L')
           navigation.navigate("main");
         } else {
           console.log("wrong otp received");

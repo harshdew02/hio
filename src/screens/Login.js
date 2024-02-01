@@ -23,7 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
-import {data} from "../constants"
+import {data,codes} from "../constants"
 
 const requestOTP = async (code, number, navigation, [loading, setLoading]) => {
   const apiUrl = "https://heartitout.in/welcome/wp-json/otp_signup_process/v2";
@@ -57,13 +57,14 @@ const requestOTP = async (code, number, navigation, [loading, setLoading]) => {
 import Logo4 from '../../assets/images/myvec.svg';
 
 const Login = () => {
-  const [value, setValue] = useState("91");
+  const [value, setValue] = useState("IN");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const [number, onChangeNumber] = React.useState("");
   navigation.addListener("focus", (ref) => {
     setLoading(false);
   });
+  
 
   // const [isFocus, setIsFocus] = useState(false);
 
@@ -115,12 +116,13 @@ const Login = () => {
               // onFocus={() => setIsFocus(true)}
               // onBlur={() => setIsFocus(false)}
               labelField="show"
-              valueField="ccode"
+              valueField="code"
               placeholder="IN(+91)"
               searchPlaceholder="Search..."
               value={value}
               onChange={(item) => {
-                setValue(item.value);
+                setValue(item.code);
+                console.log(item)
               }}
             />
 
@@ -139,7 +141,7 @@ const Login = () => {
             style={styles.button}
             onPress={() => {
               setLoading(true);
-              requestOTP(value, number, navigation, [loading, setLoading]);
+              requestOTP(codes[value], number, navigation, [loading, setLoading]);
             }}
           >
             <Text style={styles.textStyle}>Get OTP</Text>
