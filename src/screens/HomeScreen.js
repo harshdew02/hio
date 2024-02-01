@@ -56,8 +56,9 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </View>
-        {/* Content */}
 
+
+        {/* Content */}
         <View className="flex-row justify-between" style={[styles.cardContiner, { height: hp(15.8) }]}>
           <TouchableOpacity style={[styles.card, { backgroundColor: '#FEF8C8' }]}>
             <Text style={styles.cardText}>
@@ -97,7 +98,6 @@ export default function HomeScreen() {
         </View>
 
         {/* Package */}
-
         <View className="flex-col items-center" style={[styles.cardContiner, { height: hp(15.8), marginTop: hp(3) }]}>
           <View style={[styles.packageCard, {}]}>
             <View className="flex-col justify-between items-start " style={{ height: hp(9) }}>
@@ -128,10 +128,9 @@ export default function HomeScreen() {
                 </Text>
               </TouchableOpacity>
             </View>
-
             <Image
               source={require("../../assets/images/SelfCareIcon2.png")}
-              style={{ width: wp(18), height: hp(14)}}
+              style={{ width: wp(18), height: hp(14) }}
             />
           </View>
         </View>
