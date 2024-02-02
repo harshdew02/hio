@@ -39,7 +39,7 @@ const verifyOTP = (mobile, Token, otp, navigation, [loading, setLoading], [error
       .then(async (res) => {
         if (res.data.Status == "Get_Details" || res.data.Status == "Success") {
           await AsyncStorage.setItem("token", Token);
-          navigation.navigate("main");
+          navigation.navigate("loader");
         } else {
           console.log("wrong otp received");
           setError("You entered the wrong code. Please try again.");

@@ -17,13 +17,14 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Dropdown } from "react-native-element-dropdown";
+import SelectDropdown from "react-native-select-dropdown";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
-import {data,codes} from "../constants"
+import {data,codes,countryCodes,reshow} from "../constants"
 
 const requestOTP = async (code, number, navigation, [loading, setLoading]) => {
   const apiUrl = "https://heartitout.in/welcome/wp-json/otp_signup_process/v2";
@@ -125,6 +126,23 @@ const Login = () => {
                 console.log(item)
               }}
             />
+            {/* <SelectDropdown 
+              data={countryCodes}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                // console.log(selectedItem)
+                setValue(reshow[selectedItem])
+                console.log("somevalue:"+value);
+                return `+${codes[reshow[selectedItem]]}`
+              }}
+              rowTextForSelection={(item, index) => {
+                
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item
+              }}
+            /> */}
 
             <TextInput
               style={styles.input}
